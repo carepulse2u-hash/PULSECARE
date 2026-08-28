@@ -47,8 +47,14 @@ export async function POST(req: Request) {
   } catch (error: any) {
     console.error("Razorpay create order error:", error);
     const statusCode = error.statusCode || error.status || 500;
+    
+    let errorMsg = error.message || "Failed to create Razorpay order";
+    if (statusCode === 401 || (error.error && error.error.description && error.error.description.toLowerCase().includes("auth"))) {
+      errorMsg = "Razorpay Authentication Failed: The API Key ID or Secret is invalid or expired. Please check your environment variables in Vercel/local .env.";
+    }
+
     return NextResponse.json(
-      { success: false, error: error.message || "Failed to create Razorpay order" },
+      { success: false, error: errorMsg },
       { status: statusCode === 401 ? 401 : 500 }
     );
   }
