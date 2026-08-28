@@ -1,4 +1,9 @@
 /* Header & Layout */
+.appWrapper {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 .header {
   position: sticky;
   top: 0;
@@ -6,7 +11,7 @@
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 .headerContainer {
@@ -17,7 +22,7 @@
 
 .logo {
   font-family: var(--font-heading);
-  font-size: 24px;
+  font-size: clamp(18px, 4vw, 24px);
   font-weight: 700;
   color: var(--primary);
   display: flex;
@@ -44,9 +49,32 @@
   transform: translateY(-1px);
 }
 
+.headerSecondaryCTA {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.headerSecondaryCTA:hover {
+  background: var(--primary-light);
+  transform: translateY(-1px);
+}
+
 @media (max-width: 768px) {
   .headerCTA {
     display: none; /* Hide header CTA on mobile as we have sticky bottom CTA */
+  }
+  .headerSecondaryCTA {
+    padding: 7px 12px;
+    font-size: 12px;
   }
 }
 
@@ -54,7 +82,7 @@
 .hero {
   position: relative;
   background: radial-gradient(circle at 80% 20%, #f0fdfa 0%, var(--bg-primary) 50%);
-  overflow: hidden;
+  overflow: hidden; /* clips the floating badges so no horizontal scroll */
 }
 
 .heroGrid {
@@ -62,12 +90,14 @@
   grid-template-columns: 1.1fr 0.9fr;
   gap: 48px;
   align-items: center;
+  min-width: 0; /* prevents grid blowout */
 }
 
 .heroContent {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
 }
 
 .badge {
@@ -84,13 +114,13 @@
 }
 
 .heroTitle {
-  font-size: 54px;
+  font-size: clamp(28px, 6vw, 54px);
   line-height: 1.15;
   letter-spacing: -0.02em;
 }
 
 .heroSubtitle {
-  font-size: 18px;
+  font-size: clamp(14px, 3.5vw, 18px);
   line-height: 1.6;
   color: var(--text-muted);
 }
@@ -121,10 +151,11 @@
   align-items: baseline;
   gap: 12px;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
 .currentPrice {
-  font-size: 32px;
+  font-size: clamp(24px, 5vw, 32px);
   font-weight: 700;
   color: var(--text-primary);
   font-family: var(--font-heading);
@@ -199,6 +230,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: visible; /* badges extend beyond; hero section clips them */
 }
 
 .heroImage {
@@ -208,6 +240,7 @@
   border-radius: var(--radius-lg);
   object-fit: cover;
   box-shadow: var(--shadow-premium);
+  display: block;
 }
 
 /* Floating UI Badges */
@@ -228,10 +261,11 @@
   pointer-events: none;
 }
 
-.fb1 { top: 10%; left: -5%; }
-.fb2 { top: 30%; right: -5%; }
-.fb3 { bottom: 20%; left: -8%; }
-.fb4 { bottom: 10%; right: -2%; }
+/* Floating badges — kept well inside the hero bounds to avoid overflow */
+.fb1 { top: 10%; left: 2%; }
+.fb2 { top: 30%; right: 2%; }
+.fb3 { bottom: 20%; left: 2%; }
+.fb4 { bottom: 10%; right: 2%; }
 
 .fbIcon {
   color: var(--accent);
@@ -241,40 +275,68 @@
   font-size: 16px;
 }
 
-@media (max-width: 1024px) {
+/* Responsive breakpoints — hero grid */
+@media (max-width: 1100px) {
   .heroGrid {
     grid-template-columns: 1fr;
-    gap: 64px;
-  }
-  .heroTitle {
-    font-size: 40px;
+    gap: 32px;
   }
   .heroImageContainer {
     order: -1;
+    max-width: 340px;
+    margin: 0 auto;
   }
   .floatingBadge {
     padding: 8px 12px;
     font-size: 12px;
   }
-  .fb1 { left: 5%; }
-  .fb2 { right: 5%; }
-  .fb3 { left: 2%; }
-  .fb4 { right: 2%; }
+  .fb1 { left: 4%; }
+  .fb2 { right: 4%; }
+  .fb3 { left: 4%; }
+  .fb4 { right: 4%; }
 }
 
-@media (max-width: 480px) {
-  .heroTitle {
-    font-size: 32px;
+@media (max-width: 768px) {
+  .heroGrid {
+    gap: 20px;
   }
-  .heroFeatures {
-    grid-template-columns: 1fr;
+  .heroContent {
+    gap: 14px;
+  }
+  .heroImageContainer {
+    max-width: 240px;
+  }
+  .heroImage {
+    max-width: 100%;
+  }
+  .primaryButton {
+    font-size: 15px;
+    padding: 14px 20px;
+    max-width: 100%;
   }
   .reassuranceList {
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 10px;
+    font-size: 11px;
   }
   .floatingBadge {
-    display: none; /* Hide floating badges on tiny screens for cleaner layout */
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroGrid {
+    gap: 14px;
+  }
+  .heroFeatures {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .heroFeatureItem {
+    font-size: 13px;
+  }
+  .heroImageContainer {
+    max-width: 200px;
   }
 }
 
@@ -328,10 +390,10 @@
 .sectionHeader {
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 56px auto;
+  margin: 0 auto 40px auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .sectionSubtitle {
@@ -343,12 +405,12 @@
 }
 
 .sectionTitle {
-  font-size: 38px;
+  font-size: clamp(22px, 5vw, 38px);
   letter-spacing: -0.01em;
 }
 
 .sectionDesc {
-  font-size: 16px;
+  font-size: clamp(14px, 3.5vw, 16px);
   color: var(--text-muted);
   line-height: 1.6;
 }
@@ -356,8 +418,9 @@
 .splitGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 64px;
+  gap: 40px;
   align-items: center;
+  min-width: 0;
 }
 
 .splitContent {
@@ -402,10 +465,19 @@
 @media (max-width: 900px) {
   .splitGrid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 28px;
   }
   .splitImage {
-    height: 320px;
+    height: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .splitImage {
+    height: 200px;
+  }
+  .sectionHeader {
+    margin-bottom: 24px;
   }
 }
 
@@ -862,14 +934,23 @@
 @media (max-width: 968px) {
   .offerCardGrid {
     grid-template-columns: 1fr;
-    padding: 32px;
-    gap: 32px;
+    padding: 24px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .offerCardGrid {
+    padding: 18px;
+    gap: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .offerCardGrid {
-    padding: 20px;
+    padding: 14px;
+    gap: 16px;
+    border-radius: var(--radius-sm);
   }
 }
 
@@ -898,13 +979,13 @@
 
 .offerCurrentPrice {
   font-family: var(--font-heading);
-  font-size: 48px;
+  font-size: clamp(32px, 7vw, 48px);
   font-weight: 800;
   color: var(--text-primary);
 }
 
 .offerOriginalPrice {
-  font-size: 24px;
+  font-size: clamp(16px, 3.5vw, 24px);
   text-decoration: line-through;
   color: var(--text-muted);
 }
@@ -950,12 +1031,25 @@
 .orderFormContainer {
   background: var(--bg-secondary);
   border-radius: var(--radius-md);
-  padding: 32px;
+  padding: 24px;
   border: 1px solid var(--border);
 }
 
+@media (max-width: 768px) {
+  .orderFormContainer {
+    padding: 16px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .orderFormContainer {
+    padding: 12px;
+  }
+}
+
 .formTitle {
-  font-size: 20px;
+  font-size: clamp(15px, 4vw, 20px);
   font-weight: 700;
   margin-bottom: 20px;
   color: var(--text-primary);
@@ -1001,6 +1095,12 @@
   gap: 12px;
 }
 
+@media (max-width: 400px) {
+  .formRow {
+    grid-template-columns: 1fr;
+  }
+}
+
 .quantitySelector {
   display: flex;
   align-items: center;
@@ -1039,12 +1139,13 @@
 .paymentOptionsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 520px) {
   .paymentOptionsGrid {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
 
@@ -1052,10 +1153,10 @@
   border: 1px solid var(--border);
   background: var(--bg-surface);
   border-radius: var(--radius-sm);
-  padding: 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -1125,14 +1226,17 @@
 .formButton {
   background: var(--primary);
   color: var(--text-light);
-  padding: 16px;
+  padding: 14px 10px;
   border-radius: var(--radius-sm);
-  font-size: 16px;
+  font-size: clamp(13px, 3.5vw, 16px);
   font-weight: 700;
   text-align: center;
   transition: all 0.2s ease;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .formButton:hover {
@@ -1151,22 +1255,22 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 20px;
-  padding: 40px 0;
+  gap: 14px;
+  padding: 20px 0;
 }
 
 .successIcon {
-  font-size: 64px;
+  font-size: 52px;
   color: #10b981;
 }
 
 .successTitle {
-  font-size: 24px;
+  font-size: clamp(18px, 5vw, 24px);
   font-weight: 700;
 }
 
 .successText {
-  font-size: 15px;
+  font-size: clamp(13px, 3.5vw, 15px);
   color: var(--text-muted);
   line-height: 1.6;
 }
@@ -1237,6 +1341,9 @@
   .reviewsGrid {
     grid-template-columns: 1fr;
   }
+  .reviewCard {
+    padding: 20px;
+  }
 }
 
 /* FAQ Accordion */
@@ -1267,13 +1374,14 @@
   width: 100%;
   text-align: left;
   background: var(--bg-surface);
-  padding: 20px 24px;
+  padding: 16px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: clamp(13px, 3.5vw, 16px);
   font-weight: 700;
   transition: background-color 0.2s ease;
+  gap: 12px;
 }
 
 .faqQuestionButton:hover {
@@ -1318,12 +1426,12 @@
 }
 
 .finalCtaTitle {
-  font-size: 48px;
+  font-size: clamp(26px, 6vw, 48px);
   color: var(--text-light);
 }
 
 .finalCtaPrice {
-  font-size: 32px;
+  font-size: clamp(22px, 5vw, 32px);
   font-weight: 700;
   font-family: var(--font-heading);
 }
@@ -1337,9 +1445,9 @@
 .finalCtaBtn {
   background: var(--bg-surface);
   color: var(--primary);
-  font-size: 18px;
+  font-size: clamp(14px, 4vw, 18px);
   font-weight: 700;
-  padding: 18px 48px;
+  padding: 14px 32px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
   transition: all 0.2s ease;
@@ -1352,8 +1460,8 @@
 }
 
 @media (max-width: 768px) {
-  .finalCtaTitle {
-    font-size: 36px;
+  .finalCtaBtn {
+    padding: 12px 28px;
   }
 }
 
@@ -1361,7 +1469,7 @@
 .footer {
   background: #0f172a;
   color: #94a3b8;
-  padding: 80px 0 32px 0;
+  padding: clamp(40px, 8vw, 80px) 0 32px 0;
   border-top: 1px solid #1e293b;
 }
 
@@ -1460,8 +1568,15 @@
 
 @media (max-width: 900px) {
   .footerGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .footerGrid {
     grid-template-columns: 1fr;
-    gap: 36px;
+    gap: 24px;
   }
 }
 
@@ -1521,9 +1636,23 @@
   .stickyCtaWrapper {
     display: flex;
   }
-  
+
   /* Add padding to body to prevent content overlap with sticky CTA */
   body {
-    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .stickyCtaWrapper {
+    padding: 10px 16px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .stickyCtaPriceVal {
+    font-size: 17px;
+  }
+
+  .stickyCtaBtn {
+    font-size: 14px;
+    padding: 10px 22px;
   }
 }

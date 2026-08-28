@@ -24,9 +24,14 @@ export default function Home() {
             <span className={`material-icons ${styles.logoIcon}`}>favorite</span>
             <span>PulseCare</span>
           </div>
-          <a href="#order-form" className={styles.headerCTA}>
-            ORDER NOW
-          </a>
+          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+            <a href="#my-orders" className={styles.headerSecondaryCTA}>
+              MY ORDERS
+            </a>
+            <a href="#order-form" className={styles.headerCTA}>
+              ORDER NOW
+            </a>
+          </div>
         </div>
       </header>
 

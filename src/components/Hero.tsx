@@ -91,16 +91,39 @@ export default function Hero() {
             )}
           </div>
 
-          <CountdownTimer 
-            duration={data.offerCountdownDuration}
-            startedAt={data.offerCountdownStartedAt}
-            serverTime={data.serverTime}
-          />
 
           <div className={styles.ctaGroup}>
             <a href="#order-form" className={styles.primaryButton}>
               BUY NOW — ₹{data.price.toLocaleString("en-IN")}
             </a>
+
+            {/* LAUNCHING OFFER label */}
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
+              border: "1.5px solid #f59e0b",
+              borderRadius: "8px",
+              padding: "7px 14px",
+              width: "fit-content",
+              fontWeight: "800",
+              fontSize: "13px",
+              color: "#92400e",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              boxShadow: "0 2px 6px rgba(245,158,11,0.18)"
+            }}>
+              <span className="material-icons" style={{ fontSize: "16px", color: "#d97706" }}>rocket_launch</span>
+              Launching Offer
+            </div>
+
+            <CountdownTimer 
+              duration={data.offerCountdownDuration}
+              startedAt={data.offerCountdownStartedAt}
+              serverTime={data.serverTime}
+            />
+
             <div className={styles.reassuranceList}>
               <div className={styles.reassuranceItem}>
                 <span className="material-icons" style={{ fontSize: "14px", color: "var(--primary)" }}>local_shipping</span>
