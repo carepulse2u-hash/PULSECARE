@@ -319,7 +319,7 @@ export default function OfferSection() {
           return;
         }
 
-        const razorpayKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_TV4R4mAfbFjqxY";
+        const razorpayKey = orderData.key_id || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_TV4R4mAfbFjqxY";
 
         const options = {
           key: razorpayKey,
