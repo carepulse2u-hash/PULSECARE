@@ -179,7 +179,7 @@ export default function OrdersDashboardView() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px", width: "100%", minWidth: 0 }}>
       {/* Loading / Error States */}
       {loading ? (
         <div style={{ textAlign: "center", padding: "60px 0" }}>

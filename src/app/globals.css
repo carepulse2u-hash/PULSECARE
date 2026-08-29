@@ -96,31 +96,61 @@ button {
 }
 
 /* Utility classes */
+
+/*
+  Responsive container — side margins per breakpoint:
+    Mobile  (<640px)       : 16–24px
+    Tablet  (640–1024px)   : 32–48px
+    Laptop  (1024–1440px)  : 48–80px
+    Large   (1440–1920px)  : 80–120px
+    XL      (>1920px)      : content capped at 1440px, centred
+*/
 .container {
-  max-width: var(--max-width);
+  /* Large desktop default (1440–1920px): 80px sides */
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 80px;
 }
 
 .section-padding {
   padding: 80px 0;
 }
 
-@media (max-width: 768px) {
-  .section-padding {
-    padding: 48px 0;
-  }
+/* Laptop (1024–1440px) */
+@media (max-width: 1440px) {
   .container {
-    padding: 0 16px;
+    padding: 0 64px;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet (640–1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+  .section-padding {
+    padding: 64px 0;
+  }
+}
+
+/* Mobile (< 640px) */
+@media (max-width: 640px) {
+  .container {
+    padding: 0 20px;
+  }
+  .section-padding {
+    padding: 48px 0;
+  }
+}
+
+/* Small mobile (< 400px) */
+@media (max-width: 400px) {
+  .container {
+    padding: 0 16px;
+  }
   .section-padding {
     padding: 36px 0;
-  }
-  .container {
-    padding: 0 14px;
   }
 }
 

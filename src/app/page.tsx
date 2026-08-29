@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./page.module.css";
 import Hero from "../components/Hero";
 import TrustStrip from "../components/TrustStrip";
@@ -20,10 +21,9 @@ export default function Home() {
       {/* Header */}
       <header className={styles.header}>
         <div className={`${styles.container} ${styles.headerContainer}`}>
-          <div className={styles.logo}>
-            <span className={`material-icons ${styles.logoIcon}`}>favorite</span>
-            <span>PulseCare</span>
-          </div>
+          <Link href="/" className={styles.logo}>
+            <img src="/images/logo.png" alt="PulseCare" className={styles.logoImg} />
+          </Link>
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
             <a href="#my-orders" className={styles.headerSecondaryCTA}>
               MY ORDERS

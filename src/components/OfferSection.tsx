@@ -75,6 +75,7 @@ export default function OfferSection() {
   // Customer Orders & Tabs
   const [customerOrders, setCustomerOrders] = useState<CustomerOrder[]>([]);
   const [activeTab, setActiveTab] = useState<"checkout" | "my-orders">("checkout");
+  const [checkoutFocused, setCheckoutFocused] = useState(false);
   const [searchPhone, setSearchPhone] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResultMsg, setSearchResultMsg] = useState("");
@@ -93,8 +94,10 @@ export default function OfferSection() {
     const handleHashChange = () => {
       if (window.location.hash === "#my-orders" || window.location.hash === "#my-orders-section") {
         setActiveTab("my-orders");
+        setCheckoutFocused(true);
       } else if (window.location.hash === "#order-form") {
         setActiveTab("checkout");
+        setCheckoutFocused(true);
       }
     };
 
@@ -105,8 +108,10 @@ export default function OfferSection() {
         const href = anchor.getAttribute("href");
         if (href === "#order-form") {
           setActiveTab("checkout");
+          setCheckoutFocused(true);
         } else if (href === "#my-orders" || href === "#my-orders-section") {
           setActiveTab("my-orders");
+          setCheckoutFocused(true);
         }
       }
     };
@@ -481,8 +486,10 @@ export default function OfferSection() {
   return (
     <section className={`${styles.offerSection} section-padding`} id="order-form">
       <div className={styles.container} id="my-orders">
-        <div className={styles.offerCardGrid}>
-          {/* Left Side: Product Offer Details */}
+        <div className={styles.offerCardGrid} style={checkoutFocused ? { gridTemplateColumns: "1fr", width: "100%", maxWidth: "560px", margin: "0 auto" } : undefined}>
+          {/* Left Side: Product Offer Details — hidden when checkout is focused */}
+          {!checkoutFocused && (
+          <>
           <div className={styles.offerDetails}>
             <div className={styles.specialOfferBadge}>Special Launch Offer</div>
             
@@ -537,9 +544,36 @@ export default function OfferSection() {
               </span>
             </div>
           </div>
+          </>
+          )}
 
           {/* Right Side: Order Container with Tabs */}
           <div className={styles.orderFormContainer}>
+            {/* Back to full view link (only in focused mode) */}
+            {checkoutFocused && (
+              <button
+                type="button"
+                onClick={() => setCheckoutFocused(false)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  background: "none",
+                  border: "none",
+                  color: "var(--text-muted)",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                  padding: "0 0 12px 0",
+                  transition: "color 0.2s ease"
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--primary)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted)")}
+              >
+                <span className="material-icons" style={{ fontSize: "18px" }}>arrow_back</span>
+                <span>Back to product details</span>
+              </button>
+            )}
             {/* Top Tab Bar: CHECKOUT vs MY ORDERS */}
             <div
               style={{

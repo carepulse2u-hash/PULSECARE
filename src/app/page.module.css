@@ -1,4 +1,48 @@
-/* Header & Layout */
+/* ─── Responsive Container ─────────────────────────────────────────────────
+   Side margins per breakpoint:
+     Mobile  (<640px)       : 16–24px
+     Tablet  (640–1024px)   : 32–48px
+     Laptop  (1024–1440px)  : 48–80px
+     Large   (1440–1920px)  : 80–120px
+     XL      (>1920px)      : content capped at 1440px, centred
+──────────────────────────────────────────────────────────────────────────── */
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  /* Large desktop default (1440–1920px): 80px sides */
+  padding: 0 80px;
+}
+
+@media (max-width: 1440px) {
+  .container {
+    /* Laptop (1024–1440px): 64px sides */
+    padding: 0 64px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .container {
+    /* Tablet (640–1024px): 40px sides */
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    /* Mobile (<640px): 20px sides */
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    /* Small mobile (<400px): 16px sides */
+    padding: 0 16px;
+  }
+}
+
+/* ─── Header & Layout ──────────────────────────────────────────────────────── */
 .appWrapper {
   overflow-x: hidden;
   width: 100%;
@@ -32,6 +76,12 @@
 
 .logoIcon {
   color: var(--accent);
+}
+
+.logoImg {
+  height: auto;
+  width: clamp(140px, 18vw, 220px);
+  display: block;
 }
 
 .headerCTA {
@@ -929,6 +979,9 @@
   border-radius: var(--radius-lg);
   padding: 48px;
   box-shadow: var(--shadow-premium);
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
 }
 
 @media (max-width: 968px) {
@@ -1082,6 +1135,7 @@
   font-family: var(--font-sans);
   color: var(--text-primary);
   transition: border-color 0.2s ease;
+  width: 100%;
 }
 
 .formInput:focus {
@@ -1095,7 +1149,7 @@
   gap: 12px;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   .formRow {
     grid-template-columns: 1fr;
   }
