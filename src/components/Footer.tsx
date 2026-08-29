@@ -36,14 +36,7 @@ export default function Footer() {
             <p className={styles.footerText}>
               A modern D2C health tech brand dedicated to making daily wellness checks comfortable, digital, and reachable for everyone.
             </p>
-            <div className={styles.socialRow}>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className={styles.socialBtn} aria-label="Instagram">
-                <span className="material-icons">camera_alt</span>
-              </a>
-              <a href={`https://wa.me/${contact.phone.replace(/[^0-9]/g, "")}`} target="_blank" rel="noreferrer" className={styles.socialBtn} aria-label="WhatsApp">
-                <span className="material-icons">chat</span>
-              </a>
-            </div>
+
           </div>
 
           <div className={styles.footerCol}>
@@ -58,9 +51,7 @@ export default function Footer() {
               <li>
                 <a href="#order-form" className={styles.footerLink}>Order Form</a>
               </li>
-              <li>
-                <a href="/admin" className={styles.footerLink} style={{ color: "var(--primary)", fontWeight: 600 }}>Admin CMS</a>
-              </li>
+
             </ul>
           </div>
 
