@@ -122,6 +122,15 @@
   ],
   "reviews": [
     {
+      "id": "rev_kapoor",
+      "rating": 5,
+      "content": "I recommended PulseCare to several senior patients in my practice. The voice guidance makes a tremendous difference for elderly accuracy.",
+      "author": "Dr. Sunita Kapoor (New Delhi)",
+      "date": "October 26, 2026",
+      "verified": true,
+      "location": "New Delhi"
+    },
+    {
       "id": "rev_1",
       "rating": 5,
       "content": "I bought this for my elderly parents. The large digital display is incredibly clear, but the voice announcement is the real game-changer. It guides them through the reading and calls out the result so they don't have to strain their eyes. Highly recommended for seniors.",

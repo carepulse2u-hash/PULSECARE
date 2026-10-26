@@ -17,7 +17,6 @@
 
 # Sensitive Auth & Dynamic Data Files
 secure_auth.json
-orders.json
 
 # Debug logs
 npm-debug.log*
