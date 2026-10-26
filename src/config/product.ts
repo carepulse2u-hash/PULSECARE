@@ -4,11 +4,13 @@ export interface FAQItem {
 }
 
 export interface ReviewItem {
+  id?: string;
   rating: number;
   content: string;
   author: string;
   date: string;
   verified: boolean;
+  location?: string;
 }
 
 export interface OfferCountdownDuration {
