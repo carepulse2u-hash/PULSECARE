@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import styles from "../app/page.module.css";
 import { productData } from "../config/product";
-import CountdownTimer, { CountdownDuration } from "./CountdownTimer";
 import Script from "next/script";
 
 declare global {
@@ -47,12 +46,9 @@ export default function OfferSection() {
   const [productInfo, setProductInfo] = useState({
     price: productData.price,
     compareAtPrice: productData.compareAtPrice || 2999,
-    offerCountdownDuration: (productData.offerCountdownDuration ?? { days: 2, hours: 5, minutes: 45 }) as CountdownDuration,
     shippingText: productData.shippingText,
     warrantyText: productData.warrantyText,
     productName: productData.productName,
-    offerCountdownStartedAt: undefined as number | undefined,
-    serverTime: undefined as number | undefined,
   });
 
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "online">("online");
@@ -133,12 +129,9 @@ export default function OfferSection() {
           setProductInfo({
             price: data.product.price ?? productData.price,
             compareAtPrice: data.product.compareAtPrice ?? productData.compareAtPrice,
-            offerCountdownDuration: data.product.offerCountdownDuration ?? productData.offerCountdownDuration ?? { days: 2, hours: 5, minutes: 45 },
             shippingText: data.product.shippingText || productData.shippingText,
             warrantyText: data.product.warrantyText || productData.warrantyText,
             productName: data.product.productName || productData.productName,
-            offerCountdownStartedAt: data.product.offerCountdownStartedAt,
-            serverTime: data.serverTime,
           });
         }
       })
@@ -515,12 +508,6 @@ export default function OfferSection() {
                 </p>
               )}
             </div>
-
-            <CountdownTimer 
-              duration={productInfo.offerCountdownDuration}
-              startedAt={productInfo.offerCountdownStartedAt}
-              serverTime={productInfo.serverTime}
-            />
 
             <div className={styles.offerInclusions}>
               <div className={styles.inclusionItem}>

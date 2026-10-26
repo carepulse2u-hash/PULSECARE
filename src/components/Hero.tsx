@@ -4,15 +4,11 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import styles from "../app/page.module.css";
 import { productData } from "../config/product";
-import CountdownTimer, { CountdownDuration } from "./CountdownTimer";
 
 export default function Hero() {
   const [data, setData] = useState({
     price: productData.price,
     compareAtPrice: productData.compareAtPrice || 2999,
-    offerCountdownDuration: (productData.offerCountdownDuration ?? { days: 2, hours: 5, minutes: 45 }) as CountdownDuration,
-    offerCountdownStartedAt: undefined as number | undefined,
-    serverTime: undefined as number | undefined,
     tagline: productData.tagline,
     description: productData.description,
     shippingText: productData.shippingText,
@@ -29,9 +25,6 @@ export default function Hero() {
           setData({
             price: p.price ?? productData.price,
             compareAtPrice: p.compareAtPrice ?? productData.compareAtPrice,
-            offerCountdownDuration: p.offerCountdownDuration ?? productData.offerCountdownDuration ?? { days: 2, hours: 5, minutes: 45 },
-            offerCountdownStartedAt: p.offerCountdownStartedAt,
-            serverTime: resData.serverTime,
             tagline: p.tagline || productData.tagline,
             description: p.description || productData.description,
             shippingText: p.shippingText || productData.shippingText,
@@ -97,32 +90,6 @@ export default function Hero() {
               BUY NOW — ₹{data.price.toLocaleString("en-IN")}
             </a>
 
-            {/* LAUNCHING OFFER label */}
-            <div style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
-              border: "1.5px solid #f59e0b",
-              borderRadius: "8px",
-              padding: "7px 14px",
-              width: "fit-content",
-              fontWeight: "800",
-              fontSize: "13px",
-              color: "#92400e",
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              boxShadow: "0 2px 6px rgba(245,158,11,0.18)"
-            }}>
-              <span className="material-icons" style={{ fontSize: "16px", color: "#d97706" }}>rocket_launch</span>
-              Launching Offer
-            </div>
-
-            <CountdownTimer 
-              duration={data.offerCountdownDuration}
-              startedAt={data.offerCountdownStartedAt}
-              serverTime={data.serverTime}
-            />
 
             <div className={styles.reassuranceList}>
               <div className={styles.reassuranceItem}>

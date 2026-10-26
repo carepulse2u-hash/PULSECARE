@@ -91,12 +91,6 @@ export default function AdminPage() {
   const handleSave = async () => {
     if (!form) return;
 
-    // Validate countdown duration
-    const dur = form.offerCountdownDuration ?? { days: 0, hours: 0, minutes: 0 };
-    if (dur.days === 0 && dur.hours === 0 && dur.minutes === 0) {
-      showToast("Offer Countdown Duration cannot be all zeros. Please enter at least 1 minute.", "error");
-      return;
-    }
 
     try {
       setSaving(true);
@@ -498,106 +492,6 @@ export default function AdminPage() {
                 />
               </div>
 
-              <div className={`${styles.formGroup} ${styles.formGroupFull}`}>
-                <label className={styles.label}>Offer Countdown Duration</label>
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gap: "12px",
-                    marginTop: "4px",
-                  }}
-                >
-                  {/* Days */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <label
-                      htmlFor="countdown-days"
-                      style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-muted)" }}
-                    >
-                      Days
-                    </label>
-                    <input
-                      id="countdown-days"
-                      type="number"
-                      min={0}
-                      value={form.offerCountdownDuration?.days ?? 2}
-                      onChange={(e) => {
-                        const val = Math.max(0, parseInt(e.target.value) || 0);
-                        setForm({
-                          ...form,
-                          offerCountdownDuration: {
-                            days: val,
-                            hours: form.offerCountdownDuration?.hours ?? 0,
-                            minutes: form.offerCountdownDuration?.minutes ?? 0,
-                          },
-                        });
-                      }}
-                      className={styles.input}
-                    />
-                  </div>
-
-                  {/* Hours */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <label
-                      htmlFor="countdown-hours"
-                      style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-muted)" }}
-                    >
-                      Hours (0-23)
-                    </label>
-                    <input
-                      id="countdown-hours"
-                      type="number"
-                      min={0}
-                      max={23}
-                      value={form.offerCountdownDuration?.hours ?? 5}
-                      onChange={(e) => {
-                        const val = Math.min(23, Math.max(0, parseInt(e.target.value) || 0));
-                        setForm({
-                          ...form,
-                          offerCountdownDuration: {
-                            days: form.offerCountdownDuration?.days ?? 0,
-                            hours: val,
-                            minutes: form.offerCountdownDuration?.minutes ?? 0,
-                          },
-                        });
-                      }}
-                      className={styles.input}
-                    />
-                  </div>
-
-                  {/* Minutes */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <label
-                      htmlFor="countdown-minutes"
-                      style={{ fontSize: "12px", fontWeight: 600, color: "var(--text-muted)" }}
-                    >
-                      Minutes (0-59)
-                    </label>
-                    <input
-                      id="countdown-minutes"
-                      type="number"
-                      min={0}
-                      max={59}
-                      value={form.offerCountdownDuration?.minutes ?? 45}
-                      onChange={(e) => {
-                        const val = Math.min(59, Math.max(0, parseInt(e.target.value) || 0));
-                        setForm({
-                          ...form,
-                          offerCountdownDuration: {
-                            days: form.offerCountdownDuration?.days ?? 0,
-                            hours: form.offerCountdownDuration?.hours ?? 0,
-                            minutes: val,
-                          },
-                        });
-                      }}
-                      className={styles.input}
-                    />
-                  </div>
-                </div>
-                <span style={{ fontSize: "12px", color: "var(--text-muted)", marginTop: "6px", display: "block" }}>
-                  Set how long the countdown should run. Example: 2 days, 5 hours and 45 minutes.
-                </span>
-              </div>
 
               <div className={styles.formGroup}>
                 <label className={styles.label}>Stock Status</label>
