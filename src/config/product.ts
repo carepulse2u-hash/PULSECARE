@@ -36,6 +36,8 @@ export interface ProductConfig {
     lifestyle: string;
     box: string;
     benefits?: string;
+    cable?: string;
+    manual?: string;
   };
   features: {
     title: string;
@@ -70,7 +72,9 @@ export const productData: ProductConfig = {
     hero: "/images/hero.png",
     lifestyle: "/images/lifestyle.png",
     box: "/images/box.png",
-    benefits: "/images/lifestyle.png"
+    benefits: "/images/lifestyle.png",
+    cable: "",
+    manual: ""
   },
   features: [
     {

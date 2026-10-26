@@ -15,6 +15,7 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   const [form, setForm] = useState<FullProductConfig | null>(null);
+  const [uploadingKey, setUploadingKey] = useState<string | null>(null);
 
   // Security & Account state
   const [ownerEmail, setOwnerEmail] = useState("");
@@ -114,7 +115,10 @@ export default function AdminPage() {
   };
 
   // Handle Image Upload
-  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>, imageKey: "hero" | "lifestyle" | "box" | "benefits") => {
+  const handleImageUpload = async (
+    e: ChangeEvent<HTMLInputElement>,
+    imageKey: "hero" | "lifestyle" | "box" | "benefits" | "cable" | "manual"
+  ) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
@@ -122,8 +126,9 @@ export default function AdminPage() {
     const formData = new FormData();
     formData.append("file", file);
 
+    setUploadingKey(imageKey);
     try {
-      showToast("Uploading image...", "success");
+      showToast(`Uploading ${imageKey} image...`, "success");
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -141,12 +146,14 @@ export default function AdminPage() {
               }
             : prev
         );
-        showToast("Image uploaded successfully!", "success");
+        showToast("Image uploaded successfully! Click 'Save All Changes' to apply.", "success");
       } else {
         showToast(data.error || "Failed to upload image", "error");
       }
     } catch (err) {
       showToast("Error uploading file", "error");
+    } finally {
+      setUploadingKey(null);
     }
   };
 
@@ -576,11 +583,14 @@ export default function AdminPage() {
                 </div>
                 <div className={styles.uploadControls}>
                   <label className={styles.fileUploadLabel}>
-                    <span className="material-icons" style={{ fontSize: "16px" }}>cloud_upload</span>
-                    Upload New File
+                    <span className="material-icons" style={{ fontSize: "16px" }}>
+                      {uploadingKey === "hero" ? "sync" : "cloud_upload"}
+                    </span>
+                    {uploadingKey === "hero" ? "Uploading..." : "Upload New File"}
                     <input
                       type="file"
                       accept="image/*"
+                      disabled={uploadingKey === "hero"}
                       className={styles.fileInput}
                       onChange={(e) => handleImageUpload(e, "hero")}
                     />
@@ -614,11 +624,14 @@ export default function AdminPage() {
                 </div>
                 <div className={styles.uploadControls}>
                   <label className={styles.fileUploadLabel}>
-                    <span className="material-icons" style={{ fontSize: "16px" }}>cloud_upload</span>
-                    Upload New File
+                    <span className="material-icons" style={{ fontSize: "16px" }}>
+                      {uploadingKey === "lifestyle" ? "sync" : "cloud_upload"}
+                    </span>
+                    {uploadingKey === "lifestyle" ? "Uploading..." : "Upload New File"}
                     <input
                       type="file"
                       accept="image/*"
+                      disabled={uploadingKey === "lifestyle"}
                       className={styles.fileInput}
                       onChange={(e) => handleImageUpload(e, "lifestyle")}
                     />
@@ -652,11 +665,14 @@ export default function AdminPage() {
                 </div>
                 <div className={styles.uploadControls}>
                   <label className={styles.fileUploadLabel}>
-                    <span className="material-icons" style={{ fontSize: "16px" }}>cloud_upload</span>
-                    Upload New File
+                    <span className="material-icons" style={{ fontSize: "16px" }}>
+                      {uploadingKey === "box" ? "sync" : "cloud_upload"}
+                    </span>
+                    {uploadingKey === "box" ? "Uploading..." : "Upload New File"}
                     <input
                       type="file"
                       accept="image/*"
+                      disabled={uploadingKey === "box"}
                       className={styles.fileInput}
                       onChange={(e) => handleImageUpload(e, "box")}
                     />
@@ -690,13 +706,106 @@ export default function AdminPage() {
                 </div>
                 <div className={styles.uploadControls}>
                   <label className={styles.fileUploadLabel}>
-                    <span className="material-icons" style={{ fontSize: "16px" }}>cloud_upload</span>
-                    Upload New File
+                    <span className="material-icons" style={{ fontSize: "16px" }}>
+                      {uploadingKey === "benefits" ? "sync" : "cloud_upload"}
+                    </span>
+                    {uploadingKey === "benefits" ? "Uploading..." : "Upload New File"}
                     <input
                       type="file"
                       accept="image/*"
+                      disabled={uploadingKey === "benefits"}
                       className={styles.fileInput}
                       onChange={(e) => handleImageUpload(e, "benefits")}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* USB Charging Cable Image */}
+              <div className={styles.imageBox}>
+                <h4 style={{ margin: 0, fontWeight: 700 }}>5. USB Charging Cable Photo</h4>
+                <div className={styles.imagePreviewWrapper}>
+                  {form.images?.cable ? (
+                    <img src={form.images.cable} alt="USB Cable Preview" className={styles.previewImg} />
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", color: "#94a3b8" }}>
+                      <span className="material-icons" style={{ fontSize: "36px" }}>usb</span>
+                      <span style={{ fontSize: "12px" }}>No Image (Shows USB Icon)</span>
+                    </div>
+                  )}
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Image Path / URL</label>
+                  <input
+                    type="text"
+                    placeholder="https://... or /images/..."
+                    value={form.images?.cable || ""}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        images: { ...form.images, cable: e.target.value },
+                      })
+                    }
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.uploadControls}>
+                  <label className={styles.fileUploadLabel}>
+                    <span className="material-icons" style={{ fontSize: "16px" }}>
+                      {uploadingKey === "cable" ? "sync" : "cloud_upload"}
+                    </span>
+                    {uploadingKey === "cable" ? "Uploading..." : "Upload New File"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      disabled={uploadingKey === "cable"}
+                      className={styles.fileInput}
+                      onChange={(e) => handleImageUpload(e, "cable")}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {/* User Manual Image */}
+              <div className={styles.imageBox}>
+                <h4 style={{ margin: 0, fontWeight: 700 }}>6. User Manual Photo</h4>
+                <div className={styles.imagePreviewWrapper}>
+                  {form.images?.manual ? (
+                    <img src={form.images.manual} alt="User Manual Preview" className={styles.previewImg} />
+                  ) : (
+                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "6px", color: "#94a3b8" }}>
+                      <span className="material-icons" style={{ fontSize: "36px" }}>menu_book</span>
+                      <span style={{ fontSize: "12px" }}>No Image (Shows Manual Icon)</span>
+                    </div>
+                  )}
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Image Path / URL</label>
+                  <input
+                    type="text"
+                    placeholder="https://... or /images/..."
+                    value={form.images?.manual || ""}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        images: { ...form.images, manual: e.target.value },
+                      })
+                    }
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.uploadControls}>
+                  <label className={styles.fileUploadLabel}>
+                    <span className="material-icons" style={{ fontSize: "16px" }}>
+                      {uploadingKey === "manual" ? "sync" : "cloud_upload"}
+                    </span>
+                    {uploadingKey === "manual" ? "Uploading..." : "Upload New File"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      disabled={uploadingKey === "manual"}
+                      className={styles.fileInput}
+                      onChange={(e) => handleImageUpload(e, "manual")}
                     />
                   </label>
                 </div>

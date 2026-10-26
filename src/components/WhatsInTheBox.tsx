@@ -9,6 +9,8 @@ export default function WhatsInTheBox() {
   const [images, setImages] = useState({
     hero: productData.images.hero,
     box: productData.images.box,
+    cable: productData.images.cable || "",
+    manual: productData.images.manual || "",
   });
 
   useEffect(() => {
@@ -19,6 +21,8 @@ export default function WhatsInTheBox() {
           setImages({
             hero: data.product.images.hero || productData.images.hero,
             box: data.product.images.box || productData.images.box,
+            cable: data.product.images.cable || "",
+            manual: data.product.images.manual || "",
           });
         }
       })
@@ -34,13 +38,13 @@ export default function WhatsInTheBox() {
     {
       title: "USB-C Charging Cable",
       qty: "1 Unit",
-      image: null,
+      image: images.cable || null,
       icon: "usb"
     },
     {
       title: "User Manual",
       qty: "1 Unit",
-      image: null,
+      image: images.manual || null,
       icon: "menu_book"
     },
     {
